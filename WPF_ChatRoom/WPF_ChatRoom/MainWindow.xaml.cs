@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_ChatRoom.MVVM.View;
 
 namespace WPF_ChatRoom
 {
@@ -19,6 +20,9 @@ namespace WPF_ChatRoom
         public MainWindow()
         {
             InitializeComponent();
+            ChatRoom chatRoom = new ChatRoom();
+            chatRoom.Show();
+            this.Close();
         }
     }
 }
