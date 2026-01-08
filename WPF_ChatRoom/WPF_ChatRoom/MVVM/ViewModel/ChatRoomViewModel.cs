@@ -5,6 +5,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WPF_ChatRoom.Core;
 using WPF_ChatRoom.MVVM.Model;
 
@@ -12,9 +13,11 @@ namespace WPF_ChatRoom.MVVM.ViewModel
 {
     public class ChatRoomViewModel : ObservableObject
     {
+        #region 成员
         public ObservableCollection<ContactModel> Contacts { get; set; }
 
-        /* Commands */
+        private MessageManager _messageManager;
+
 
         public RelayCommand SendCommand { get; set; }
 
@@ -43,13 +46,18 @@ namespace WPF_ChatRoom.MVVM.ViewModel
             }
         }
 
-
+        #endregion
         public ChatRoomViewModel()
         {
             Contacts = new ObservableCollection<ContactModel>();
+            _messageManager = MessageManager.Instance;
+
+            //VM里的OMR订阅信息模块的OMR，即VM给信息模块提供了一个按钮，当信息模块的OMR触发，同时触发VM的OMR
+            _messageManager.OnMessageReceived += OnMessageReceived;
 
             SendCommand = new RelayCommand(o =>
             {
+                _messageManager.SendMsg(Message, SelectedContact.id);
                 SelectedContact.Messages.Add(new MessageModel
                 {
                     Message = Message,
@@ -64,6 +72,7 @@ namespace WPF_ChatRoom.MVVM.ViewModel
                 Contacts.Add(new ContactModel
                 {
                     Username = $"Alex{i}",
+                    id = i,
                     ImageSource = "https://tse1.explicit.bing.net/th/id/OIP.BzjY_OsxeGhvVgd-4uP1cAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
                     Messages = new ObservableCollection<MessageModel> { new MessageModel
                     {
@@ -75,6 +84,31 @@ namespace WPF_ChatRoom.MVVM.ViewModel
                         IsNativeOrigin = true,
                     } }
                 });
+            }
+
+        }
+
+        public void OnMessageReceived(int id, string message)
+        {
+            foreach (var contact in Contacts)
+            {
+                if (id == contact.id)
+                {
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        contact.Messages.Add(new MessageModel
+                        {
+                            Username = contact.Username,
+                            ImageSource = contact.ImageSource,
+                            UsernameColor = "#409aff",
+                            Message = message,
+                            Time = DateTime.Now,
+                            IsNativeOrigin = false,
+                        });
+                    });
+
+                }
             }
         }
     }
