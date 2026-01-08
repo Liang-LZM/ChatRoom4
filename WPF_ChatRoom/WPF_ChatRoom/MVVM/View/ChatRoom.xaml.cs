@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPF_ChatRoom.MVVM.ViewModel;
 
 namespace WPF_ChatRoom.MVVM.View
 {
@@ -22,6 +23,7 @@ namespace WPF_ChatRoom.MVVM.View
         public ChatRoom()
         {
             InitializeComponent();
+            this.DataContext = new ChatRoomViewModel();
         }
 
 
