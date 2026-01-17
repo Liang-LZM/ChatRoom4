@@ -73,12 +73,12 @@ namespace WPF_ChatRoom.MVVM.ViewModel
                 {
                     Username = $"Alex{i}",
                     id = i,
-                    ImageSource = "https://tse1.explicit.bing.net/th/id/OIP.BzjY_OsxeGhvVgd-4uP1cAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
+                    ImageSource = "pack://application:,,,/Icons/picture.png",
                     Messages = new ObservableCollection<MessageModel> { new MessageModel
                     {
                         Username = $"Alex{i}",
                         UsernameColor = "#409aff",
-                        ImageSource = "https://tse1.explicit.bing.net/th/id/OIP.BzjY_OsxeGhvVgd-4uP1cAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
+                        ImageSource = "pack://application:,,,/Icons/picture.png",
                         Message = "first",
                         Time = DateTime.Now,
                         IsNativeOrigin = true,
